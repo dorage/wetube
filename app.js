@@ -18,10 +18,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(morgan("dev"));
 // 로컬 변수를 글로벌 변수로 만들어줌
-app.use(localsMiddleware)
+app.use(localsMiddleware);
 
 app.use(routes.home, globalRouter);
-app.use(routes.home, userRouter);
-app.use(routes.home, videoRouter);
+app.use(routes.user, userRouter);
+app.use(routes.videos, videoRouter);
 
 export default app;
