@@ -5,7 +5,7 @@ export const videos =
         title: 'Video awesome',
         description: 'This is awesome thing',
         views:24,
-        videoFile:"https://archive.org/details/BugBuckBunny_124",
+        videoFile:"https://www.w3schools.com/html/mov_bbb.mp4",
         creator:
         {
             id: 121212,
@@ -18,7 +18,7 @@ export const videos =
         title: 'Video asdfg',
         description: 'This is awesome thing',
         views:24,
-        videoFile:"https://archive.org/details/BugBuckBunny_124",
+        videoFile:"https://www.w3schools.com/html/mov_bbb.mp4",
         creator:
         {
             id: 121212,
@@ -31,7 +31,7 @@ export const videos =
         title: 'Video qwerty',
         description: 'This is awesome thing',
         views:24,
-        videoFile:"https://archive.org/details/BugBuckBunny_124",
+        videoFile:"https://www.w3schools.com/html/mov_bbb.mp4",
         creator:
         {
             id: 121212,
