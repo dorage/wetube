@@ -14,6 +14,8 @@ const app = express();
 app.use(helmet());
 app.set('view engine', "pug");
 app.use(cookieParser());
+// Post로 넘어오는 form을 받기위해 사용 / req로 받음
+// 미사용시 undefined 로 넘어옴
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(morgan("dev"));
