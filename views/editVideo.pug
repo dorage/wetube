@@ -1,1 +1,9 @@
 extends layouts/main
+
+block content
+    .form-container
+        .form(action=`${routes.videos}${routes.editVideo}`, method="post")
+            input(type="text", placeholder="Title", name="title")
+            texarea(name="description", placeholder="Description")
+            input(type="submit", value="Update Video")
+        a.form-container_link.form-container_link-delete(href=`/videos${routes.deleteVideo}`) Delete Video 
