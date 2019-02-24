@@ -1,8 +1,19 @@
 import routes from "../routes"
+import Video from "../models/Video"
 
-export const home = (req, res) =>
+export const home = async (req, res) =>
 {
-    res.render("home", {pageTitle : "Home", videos});
+    // 과정이 끝나기를 기다림 / await 키워드는 async 없이는 사용불가
+    // 성공/실패 여부 상관없이 넘어가므로 try/catch 로 잡아주는게 좋음
+    try{
+        const videos = await Video.find({});
+        res.render("home", {pageTitle : "Home", videos});
+    } 
+    catch(error)
+    {
+        console.log(error);
+        res.render("home", {pageTitle : "Home", videos: []});
+    }
 };
 
 export const search = (req, res) => 
