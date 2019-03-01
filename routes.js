@@ -1,25 +1,24 @@
 // Global
-const HOME = "/";
-const JOIN = "/join";
-const LOGIN = "/login";
-const LOGOUT = "/logout";
-const SEARCH = "/search";
+const HOME = '/';
+const JOIN = '/join';
+const LOGIN = '/login';
+const LOGOUT = '/logout';
+const SEARCH = '/search';
 
 // Users
-const USER = "/users";
-const USER_DETAIL = "/:id"
-const EDIT_PROFILE = "/edit-profile";
-const CHANGE_PASSWORD = "/change-password";
+const USER = '/users';
+const USER_DETAIL = '/:id';
+const EDIT_PROFILE = '/edit-profile';
+const CHANGE_PASSWORD = '/change-password';
 
 // Videos
-const VIDEOS = "/videos";
-const UPLOAD = "/upload";
-const VIDEO_DETAIL = "/:id";
-const EDIT_VIDEO = "/:id/edit";
-const DELETE_VIDEO = "/:id/delete";
+const VIDEOS = '/videos';
+const UPLOAD = '/upload';
+const VIDEO_DETAIL = '/:id';
+const EDIT_VIDEO = '/:id/edit';
+const DELETE_VIDEO = '/:id/delete';
 
-const routes = 
-{
+const routes = {
     home: HOME,
     join: JOIN,
     login: LOGIN,
@@ -27,55 +26,39 @@ const routes =
     search: SEARCH,
 
     user: USER,
-    userDetail: (id) =>
-    {
-        if(id)
-        {
+    userDetail: (id) => {
+        if (id) {
             return `${USER}/${id}`;
         }
-        else
-        {
-            return USER_DETAIL
-        }
+
+        return USER_DETAIL;
     },
     editProfile: EDIT_PROFILE,
     changePassword: CHANGE_PASSWORD,
 
     videos: VIDEOS,
     upload: UPLOAD,
-    videoDetail: (id) =>
-    {
-        if(id)
-        {
+    videoDetail: (id) => {
+        if (id) {
             return `${VIDEOS}/${id}`;
-        }    
-        else
-        {
-            return VIDEO_DETAIL;
         }
+
+        return VIDEO_DETAIL;
     },
-    editVideo: (id) =>
-    {
-        if(id)
-        {
+    editVideo: (id) => {
+        if (id) {
             return `${VIDEOS}/${id}/edit`;
         }
-        else
-        {
-            return EDIT_VIDEO;
-        }
+
+        return EDIT_VIDEO;
     },
-    deleteVideo: (id) =>
-    {
-        if(id)
-        {
+    deleteVideo: (id) => {
+        if (id) {
             return `${VIDEOS}/${id}/delete`;
         }
-        else
-        {
-            return DELETE_VIDEO;
-        }
-    }
+
+        return DELETE_VIDEO;
+    },
 };
 
 export default routes;
