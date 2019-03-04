@@ -1,9 +1,10 @@
 import routes from '../routes';
+import User from '../models/User';
 
 export const getJoin = (req, res) => {
     res.render('join', { pageTitle: 'Join' });
 };
-export const postJoin = (req, res) => {
+export const postJoin = async (req, res) => {
     // ES6 방식
     const {
         body: {
@@ -11,12 +12,19 @@ export const postJoin = (req, res) => {
         },
     } = req;
     if (password !== password2) {
-        // status code
-        // Bad request
         res.status(400);
+        res.render('join', { pageTitle: 'Join' });
     } else {
-        // To Do: Register User
-        // To Do: Log User in
+        try {
+            const user = await User({
+                name,
+                email,
+            });
+            await User.register(user, password);
+            // To Do: Log User in
+        } catch (error) {
+            console.log(error);
+        }
         res.redirect(routes.home);
     }
     res.render('join', { pageTitle: 'Join' });
