@@ -1,10 +1,11 @@
+import passport from 'passport';
 import routes from '../routes';
 import User from '../models/User';
 
 export const getJoin = (req, res) => {
     res.render('join', { pageTitle: 'Join' });
 };
-export const postJoin = async (req, res) => {
+export const postJoin = async (req, res, next) => {
     // ES6 방식
     const {
         body: {
@@ -21,21 +22,21 @@ export const postJoin = async (req, res) => {
                 email,
             });
             await User.register(user, password);
-            // To Do: Log User in
+            next();
         } catch (error) {
             console.log(error);
+            res.redirect(routes.home);
         }
-        res.redirect(routes.home);
     }
-    res.render('join', { pageTitle: 'Join' });
 };
 
 export const getLogin = (req, res) => {
     res.render('login', { pageTitle: 'Login' });
 };
-export const postLogin = (req, res) => {
-    res.redirect(routes.home);
-};
+export const postLogin = passport.authenticate('local', {
+    failureRedirect: routes.login,
+    successRedirect: routes.home,
+});
 
 export const logout = (req, res) => {
     // To Do: Process Log Out
