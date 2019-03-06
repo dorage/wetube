@@ -19,9 +19,16 @@ export const onlyPublic = (req, res, next) => {
 };
 
 export const onlyPrivate = (res, req, next) => {
-    if (req.user) {
+    if (res.user) {
+        console.log('res true');
+    } else {
+        console.log('res false');
+    }
+    if (res.user) {
+        console.log('req true');
         next();
     } else {
+        console.log('req false');
         res.redirect(routes.home);
     }
 };
