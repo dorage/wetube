@@ -2,11 +2,12 @@ import multer from 'multer';
 import routes from './routes';
 
 const multerVideo = multer({ dest: 'uploads/videos/' });
+const multerAvatar = multer({ dest: 'uploads/avatars/ ' });
 
 export const localsMiddleware = (req, res, next) => {
     res.locals.siteName = 'WeTube';
     res.locals.routes = routes;
-    res.locals.user = req.user || null;
+    res.locals.loggedUser = req.user || null;
     next();
 };
 
@@ -20,17 +21,12 @@ export const onlyPublic = (req, res, next) => {
 
 export const onlyPrivate = (res, req, next) => {
     if (res.user) {
-        console.log('res true');
-    } else {
-        console.log('res false');
-    }
-    if (res.user) {
-        console.log('req true');
         next();
     } else {
-        console.log('req false');
         res.redirect(routes.home);
     }
 };
 
 export const uploadVideo = multerVideo.single('videoFile');
+
+export const uploadAvatar = multerAvatar.single('avatar');

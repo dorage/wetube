@@ -12,6 +12,7 @@ export const postJoin = async (req, res, next) => {
             name, email, password, password2,
         },
     } = req;
+    console.log(req);
     if (password !== password2) {
         res.status(400);
         res.render('join', { pageTitle: 'Join' });
@@ -40,33 +41,40 @@ export const postLogin = passport.authenticate('local', {
 
 // passport.js 에 함께 써도 되나 더러워보이기 때문에 이곳에 작성
 export const githubLogin = passport.authenticate('github');
-
 export const githubLoginCallback = async (_, __, profile, cb) => {
     const {
         _json: {
-            id, avatar_url, name, email,
+            id, avatar_url: avatarUrl, name, email,
         },
     } = profile;
     try {
         const user = await User.findOne({ email });
         if (user) {
             user.githubId = id;
+            user.avatarUrl = avatarUrl;
             user.save();
             return cb(null, user);
         }
         const newUser = await User.create({
             email,
             name,
-            avatarUrl: avatar_url,
+            avatarUrl,
             githubId: id,
         });
         return cb(null, newUser);
     } catch (error) {
-        print(error);
+        console.log(error);
     }
 };
-
 export const postGithubLogin = (req, res) => {
+    res.redirect(routes.home);
+};
+
+export const facebookLogin = passport.authenticate('facebook');
+export const facebookLoginCallback = (accessToken, refreshToken, profile, cb) => {
+    console.log(accessToken, refreshToken, profile, cb);
+};
+export const postFacebookLogin = (req, res) => {
     res.redirect(routes.home);
 };
 
@@ -74,6 +82,54 @@ export const logout = (req, res) => {
     req.logout();
     res.redirect(routes.home);
 };
-export const userDetail = (req, res) => res.render('userDetail', { pageTitle: 'User Detail' });
-export const editProfile = (req, res) => res.render('editProfile', { pageTitle: 'Edit Profile' });
-export const changePassword = (req, res) => res.render('changePassword', { pageTitle: 'Change Password' });
+
+export const getMe = (req, res) => {
+    res.render('userDetail', { pageTitle: 'User Detail', user: req.user });
+};
+export const userDetail = async (req, res) => {
+    const { params: { id } } = req;
+    try {
+        const user = await User.findById(id);
+        res.render('userDetail', { pageTitle: 'User Detail', user });
+    } catch (error) {
+        res.redirect(routes.home);
+    }
+};
+export const getEditProfile = (req, res) => {
+    res.render('editProfile', { pageTitle: 'Edit Profile' });
+};
+export const postEditProfile = async (req, res) => {
+    const {
+        body: { name, email },
+        file,
+    } = req;
+
+    try {
+        await User.findByIdAndUpdate(req.user.id, {
+            name,
+            email,
+            avatarUrl: file ? file.path : req.user.avatarUrl,
+        });
+        res.redirect(routes.me);
+    } catch (error) {
+        res.redirect(routes.editProfile);
+    }
+};
+export const getChangePassword = (req, res) => res.render('changePassword', { pageTitle: 'Change Password' });
+export const postChangePassword = async (req, res) => {
+    const {
+        body: { oldPassword, newPassword, newPassword1 },
+    } = req;
+    try {
+        if (newPassword !== newPassword1) {
+            res.status(400);
+            await res.redirect(`${routes.user}${routes.changePassword}`);
+            return;
+        }
+        req.user.changePassword(oldPassword, newPassword, newPassword1);
+        res.redirect(routes.me);
+    } catch (error) {
+        res.status(400);
+        res.redirect(`${routes.user}${routes.changePassword}`);
+    }
+};

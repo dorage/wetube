@@ -25,6 +25,7 @@
     "multer": "^1.4.1",
     "node-sass": "^4.11.0",
     "passport": "^0.4.0",
+    "passport-facebook": "^3.0.0",
     "passport-github": "^1.1.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^5.0.1",
@@ -35,9 +36,10 @@
     "webpack-cli": "^3.2.3"
   },
   "scripts": {
-    "dev:server": "nodemon --exec babel-node init.js --delay 2 --ignore 'scss'",
-    "dev:assets": "webpack --mode development -w",
-    "build:assets": "webpack --mode production"
+    "dev:server": "nodemon --exec babel-node init.js --delay 2 --ignore 'scss' --ignore 'static'",
+    "dev:assets": "webpack --mode development webpack -w",
+    "build:assets": "webpack --mode production webpack",
+    "tunnel": "lt --port 4000"
   },
   "devDependencies": {
     "eslint": "^5.14.1",

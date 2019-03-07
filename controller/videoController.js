@@ -1,3 +1,4 @@
+import { debug } from 'util';
 import routes from '../routes';
 import Video from '../models/Video';
 
@@ -47,7 +48,10 @@ export const postUpload = async (req, res) => {
         fileUrl: path,
         title,
         description,
+        creator: req.user.id,
     });
+    req.user.videos.push(newVideo.id);
+    req.user.save();
     res.redirect(routes.videoDetail(newVideo.id));
 };
 
